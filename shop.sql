@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Апр 15 2020 г., 18:38
+-- Время создания: Апр 16 2020 г., 16:12
 -- Версия сервера: 5.7.25
 -- Версия PHP: 7.3.9
 
@@ -45,17 +45,18 @@ CREATE TABLE `cart` (
 
 CREATE TABLE `category` (
   `id` int(11) NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `uri` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Дамп данных таблицы `category`
 --
 
-INSERT INTO `category` (`id`, `name`) VALUES
-(1, 'Plumbing'),
-(2, 'Electrician'),
-(3, 'Garden');
+INSERT INTO `category` (`id`, `name`, `uri`) VALUES
+(1, 'Plumbing', 'plumbing'),
+(2, 'Electrician', 'electrical'),
+(3, 'Garden', 'garden');
 
 -- --------------------------------------------------------
 
@@ -67,20 +68,22 @@ CREATE TABLE `item` (
   `id` int(11) NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `id_sub` int(11) DEFAULT NULL,
-  `price` float DEFAULT NULL
+  `price` float DEFAULT NULL,
+  `uri` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Дамп данных таблицы `item`
 --
 
-INSERT INTO `item` (`id`, `name`, `id_sub`, `price`) VALUES
-(1, 'Ключ разводной', 1, 15),
-(2, 'Труба медная д20', 2, 1.5),
-(3, 'Лампочка 5w', 3, 3.5),
-(4, 'Розетка', 4, 3),
-(5, 'Секатор', 5, 10),
-(6, 'Пила ручная', 6, 7);
+INSERT INTO `item` (`id`, `name`, `id_sub`, `price`, `uri`, `description`) VALUES
+(1, 'Ключ разводной', 1, 15, 'kljutz', NULL),
+(2, 'Труба медная д20', 2, 1.5, 'truba_mednaja', NULL),
+(3, 'Лампочка 5w', 3, 3.5, 'lampochka', NULL),
+(4, 'Розетка', 4, 3, 'rozetka', NULL),
+(5, 'Секатор', 5, 10, 'secator', NULL),
+(6, 'Пила ручная', 6, 7, 'pila_ruchnaja', NULL);
 
 -- --------------------------------------------------------
 
@@ -91,20 +94,21 @@ INSERT INTO `item` (`id`, `name`, `id_sub`, `price`) VALUES
 CREATE TABLE `sub_category` (
   `id` int(11) NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `id_category` int(11) DEFAULT NULL
+  `id_category` int(11) DEFAULT NULL,
+  `uri` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Дамп данных таблицы `sub_category`
 --
 
-INSERT INTO `sub_category` (`id`, `name`, `id_category`) VALUES
-(1, 'Tools', 1),
-(2, 'Pipes', 1),
-(3, 'Lights', 2),
-(4, 'Sockets', 2),
-(5, 'Secateurs\r\n', 3),
-(6, 'Saws', 3);
+INSERT INTO `sub_category` (`id`, `name`, `id_category`, `uri`) VALUES
+(1, 'Tools', 1, 'tools'),
+(2, 'Pipes', 1, 'pipes'),
+(3, 'Lights', 2, 'lights'),
+(4, 'Sockets', 2, 'socets'),
+(5, 'Secateurs\r\n', 3, 'secateurs'),
+(6, 'Saws', 3, 'saws');
 
 -- --------------------------------------------------------
 

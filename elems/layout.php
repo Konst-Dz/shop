@@ -11,6 +11,9 @@
 <body>
 <header><?php include "header.php"; ?></header>
 <main>
+    <aside>
+        <?= $aside =  $aside ?? ''; ?>
+    </aside>
     <?php include "info.php"; ?>
     <?= $content ?>
 </main>
