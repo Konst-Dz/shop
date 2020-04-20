@@ -11,11 +11,11 @@
 <body>
 <header><?php include "header.php"; ?></header>
 <main>
+    <?php include "info.php"; ?>
     <aside>
         <?= $aside =  $aside ?? ''; ?>
     </aside>
-    <?php include "info.php"; ?>
-    <?= $content ?>
+    <?= $content = $content ?? ''; ?>
 </main>
 <footer></footer>
 </body>

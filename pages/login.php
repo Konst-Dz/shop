@@ -14,49 +14,53 @@ function loginForm()
 
 function loginIn($connect){
     if (!isset($_SESSION['auth'])) {
-        if (!empty($_POST['login']) and !empty($_POST['password'])) {
-            $login = $_POST['login'];
-            $password = $_POST['password'];
+        if(isset($_POST['login']) and isset($_POST['password'])) {
+            if (!empty($_POST['login']) and !empty($_POST['password'])) {
+                $login = $_POST['login'];
+                $password = $_POST['password'];
 
-            //селект по логину
-            $query = "SELECT *,user.id as userId FROM user LEFT JOIN status ON user.id_status = status.id WHERE login = '$login' ";
-            $result = mysqli_query($connect, $query) or die(mysqli_error($connect));
-            $user = mysqli_fetch_assoc($result);
+                //селект по логину
+                $query = "SELECT *,user.id as userId FROM user LEFT JOIN status ON user.id_status = status.id WHERE login = '$login' ";
+                $result = mysqli_query($connect, $query) or die(mysqli_error($connect));
+                $user = mysqli_fetch_assoc($result);
 
-            //проверка логина
-            if ($user) {
-                //проверка на бан
-                if($user['banned'] == 0 ){
-                $hash = $user['password'];
-                //проверка хешей
-                if (password_verify($password, $hash)) {
-                    $_SESSION['id'] = $user['userId'];
-                    $_SESSION['auth'] = true;
-                    $_SESSION['login'] = $user['login'];
-                    //статус
-                    $_SESSION['status'] = $user['name'];
+                //проверка логина
+                if ($user) {
+                    //проверка на бан
+                    if ($user['banned'] == 0) {
+                        $hash = $user['password'];
+                        //проверка хешей
+                        if (password_verify($password, $hash)) {
+                            $_SESSION['id'] = $user['userId'];
+                            $_SESSION['auth'] = true;
+                            $_SESSION['login'] = $user['login'];
+                            //статус
+                            $_SESSION['status'] = $user['status'];
 
-                    $_SESSION['message'] = ['text' => 'Вы авторизованы',
-                        'status' => 'success'];
-                    header('Location:../index.php');
-                    die();
+                            $_SESSION['message'] = ['text' => 'Вы авторизованы',
+                                'status' => 'success'];
+                            header('Location:../index.php');
+                            die();
 
+
+                        } else {
+                            echo "Wrong login or password";
+                        }
+
+                    } else {
+                        echo "Вы забанены";
+                    }
 
                 } else {
                     echo "Wrong login or password";
                 }
 
-                }else{
-                    echo "Вы забанены";
-                }
-
             } else {
-                echo "Wrong login or password";
+                echo "Заполните все поля";
             }
-
-        }else{
-            loginForm();
-        }
+    } else {
+        loginForm();
+    }
 
 
     } else {

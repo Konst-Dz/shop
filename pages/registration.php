@@ -3,6 +3,7 @@
 //коннект
 include "../elems/link.php";
 //проверка авторизован или нет
+
 if(empty($_SESSION['auth'])) {
 
     function getRegForm(){
@@ -12,29 +13,30 @@ if(empty($_SESSION['auth'])) {
         $content .= "<input type=\"password\" name=\"password\"> Password<br><br>";
         $content .= "<input type=\"password\" name=\"confirm\"> Confirm Password<br> <br>";
         $content .= "<input type=\"submit\" ><br></form>";
-
+var_dump($_POST);
         include "../elems/layout.php";
     }
 
 
     function confirmUser($connect){
     //проверка на заполнение
-    if (!empty($_POST['login']) and !empty($_POST['password'])) {
+    if(isset($_POST['login']) and isset($_POST['password'])) {
+        if (!empty($_POST['login']) and !empty($_POST['password'])) {
 
-        $login = $_POST['login'];
-        //хэш
-        $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+            $login = $_POST['login'];
+            //хэш
+            $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
-        //проверка на соотв. пароля
-        if ($_POST['password'] == $_POST['confirm']) {
-            //длина пароля
-            $passwordC = strlen($_POST['password']);
+            //проверка на соотв. пароля
+            if ($_POST['password'] == $_POST['confirm']) {
+                //длина пароля
+                $passwordC = strlen($_POST['password']);
 
-            //проверка длины
-            if ($passwordC > 5 and $passwordC < 13) {
+                //проверка длины
+                if ($passwordC > 5 and $passwordC < 13) {
 
-                //проверка на минимум
-                if (preg_match('#^[a-z0-9]{3,}$#i', $login) == 1) {
+                    //проверка на минимум
+                    if (preg_match('#^[a-z0-9]{3,}$#i', $login) == 1) {
 
                         //запрос на логин в БД
                         $query = "SELECT * FROM user WHERE login = '$login' ";
@@ -43,39 +45,46 @@ if(empty($_SESSION['auth'])) {
 
                         if (!$user) {
 
-                            return true;
+                            addNewUser($connect);
 
                         } else {
                             $text = "Логин занят.";
                         }
 
-                } else {
-                     $text = "Некорректный логин.";
+                    } else {
+                        $text = "Некорректный логин.";
+                    }
+
+
+                }//длина
+                else {
+                    $text = "Пароль должен быть не менее 6 символов и не более 12.";
                 }
 
-
-            }//длина
-            else {
-                $text = "Пароль должен быть не менее 6 символов и не более 12.";
+            } else {
+                $text = " Введенные пароли не совпадают.";
             }
 
         } else {
-            $text = " Введенные пароли не совпадают.";
+            $text = "Заполните все поля.";
         }
-
     }
+    else{
+        getRegForm();
+    }
+
+    $text = $text ?? '';
     $_SESSION['message'] = ['text' => $text,
         'status' => 'error'];
     }
 
     function addNewUser($connect)
     {
-        if(confirmUser($connect) == true) {
 
             $login = $_POST['login'];
             $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
-            $query = "INSERT INTO user SET login = '$login',password = '$password',id_status = 1,banned = 0 ";
+            $query = "INSERT INTO user SET login = '$login',password = '$password',id_status = 1,banned = 0,date_reg = NOW() ";
             mysqli_query($connect, $query) or die(mysqli_error($connect));
 
 //немедленная авторизация
@@ -91,10 +100,8 @@ if(empty($_SESSION['auth'])) {
                 'status' => 'success'];
 
             header('Location:../index.php');die();
-        }
     }
-    addNewUser($connect);
-    getRegForm($connect);
+    confirmUser($connect);
 }else{
 header('Location:login.php');die();
 }

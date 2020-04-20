@@ -1,5 +1,8 @@
 RewriteEngine On
 RewriteBase /
 
+RewriteCond %{REQUEST_URI} !^/admin/
+RewriteCond %{REQUEST_URI} !^/pages/
+RewriteCond %{REQUEST_URI} !^/assets/
 RewriteCond %{REQUEST_URI} !^/index.php
 RewriteRule .* index.php
