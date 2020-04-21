@@ -11,6 +11,7 @@
 <body>
 <header></header>
 <main>
+    <?php include "../elems/info.php"; ?>
     <?= $content ?>
 </main>
 <footer></footer>

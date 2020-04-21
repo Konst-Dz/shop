@@ -13,8 +13,9 @@ if(!empty($_SESSION['auth'])){
     echo $mainPage;
     echo "<a href=\"../pages/logout.php\">Выйти</a><br>";
     if($_SESSION['status'] == 'moder' or $_SESSION['status'] == 'admin'){
-        echo "<a href=\"../admin/index.php\">Админка</a><br>";
+        echo "<a href=\"/../admin/index.php\">Админка</a><br>";
     }
+    echo "<a href=\"../pages/profile.php\">Личный кабинет</a><br>";
 
 }
 else{
