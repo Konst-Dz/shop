@@ -1,14 +1,15 @@
 <?php
 include "elems/link.php";
 include_once "elems/functions/getMainPage.php";
+include_once "elems/functions/cart.php";
 
-var_dump($_SERVER['REQUEST_URI']);
+//var_dump($_SERVER['REQUEST_URI']);
 $uri = trim(preg_replace('#^(.*/)(\?.*)$#', '$1',$_SERVER['REQUEST_URI']) , '/') ;
 $uri = explode('/',$uri);
 $categoryUri = $uri[0];
 $subUri = $uri[1] ?? null;
 $itemsUri = $uri[2] ?? null;
-var_dump($uri);
+//var_dump($uri);
 
 if($categoryUri == "" or $categoryUri == "index.php"){
     getMainPage($connect);

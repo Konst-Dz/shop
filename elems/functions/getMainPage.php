@@ -77,6 +77,7 @@ function getItem($connect,$itemsUri){
         $content .= "<p><h5> Картинка: </h5></p>";
         $content .= "<p><h5> Цена: {$page['price']} р.</h5></p>";
         $content .= buttonCart($id);
+        addInCart();
 
         include "elems/layout.php";
 
@@ -87,8 +88,3 @@ function getItem($connect,$itemsUri){
     }
 }
 
-function buttonCart($id){
-    $content = "<form method=\"POST\" action=\"\">";
-    $content .= "<button name=\"\" value=\"\">В корзину</button></form>";
-    return $content;
-}

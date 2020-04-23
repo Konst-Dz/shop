@@ -15,7 +15,7 @@ if(!empty($_SESSION['auth'])){
     if($_SESSION['status'] == 'moder' or $_SESSION['status'] == 'admin'){
         echo "<a href=\"/../admin/index.php\">Админка</a><br>";
     }
-    echo "<a href=\"../pages/profile.php\">Личный кабинет</a><br>";
+    echo "<a href=\"/../pages/profile.php\">Личный кабинет</a><br>";
 
 }
 else{
